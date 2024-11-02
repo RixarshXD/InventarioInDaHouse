@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+</head>
+
+<body>
+    {% extends "index.html" %} {% block content %}
+
+    <div class="table-responsive">
+        {% if usuarios %}
+        <table class="table table-primary">
+            <thead>
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Rut</th>
+                    <th scope="col">Correo</th>
+                    <th scope="col">Contraseña</th>
+                    <th scope="col">Telefono</th>
+                    <th scope="col">Fecha de Nacimiento</th>
+                    <th scope="col">Tipo de Usuario</th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for usuario in usuarios %}
+                <tr>
+                    <td scope="row">{{usuario.nombre}}</td>
+                    <td scope="row">{{usuario.apellido}}</td>
+                    <td scope="row">{{usuario.rut}}</td>
+                    <td scope="row">{{usuario.correo}}</td>
+                    <td scope="row">{{usuario.contrasena}}</td>
+                    <td scope="row">{{usuario.telefono}}</td>
+                    <td scope="row">{{usuario.fecha_nacimiento}}</td>
+                    <td scope="row">{{usuario.tipo_usuario}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <h1 class="alert alert-info">No hay usuarios</h1>
+        {% endif %}
+    </div>
+    {% endblock %}
+</body>
+
+</html>

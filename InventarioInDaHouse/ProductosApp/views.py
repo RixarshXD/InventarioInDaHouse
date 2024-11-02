@@ -3,6 +3,10 @@ from .models import Producto
 from .forms import ProductoForm
 
 # Create your views here.
+def index(request):
+    return render(request, 'index.html')
+
+
 
 def ListadoProductos(request):
     productos = Producto.objects.all()
