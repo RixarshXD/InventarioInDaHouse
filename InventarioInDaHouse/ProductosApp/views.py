@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Producto
 from .forms import ProductoForm
 
@@ -17,4 +17,20 @@ def RegistrarProducto(request):
             form.save()
             return ListadoProductos(request)
     data = {'form':form}
+    return render(request, 'ProductosApp/RegistrarProducto.html', data)
+
+def EliminarProducto(request, id):
+    producto = Producto.objects.get(id=id)
+    producto.delete()
+    return redirect('ListadoProductos')
+
+def ActualizarProducto(request, id):
+    producto = Producto.objects.get(id=id)
+    form = ProductoForm(instance=producto)
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, instance=producto)
+        if form.is_valid():
+            form.save()
+            return ListadoProductos(request)
+    data = {'form': form}
     return render(request, 'ProductosApp/RegistrarProducto.html', data)
