@@ -1,0 +1,13 @@
+{
+    "workbench.colorCustomizations": {
+    },
+    "workbench.preferredHighContrastLightColorTheme": "One Dark Pro Flat",
+    "workbench.preferredDarkColorTheme": "One Dark Pro",
+    "workbench.editor.decorations.colors": false,
+    "workbench.sideBar.location": "left",
+    "workbench.statusBar.visible": true,
+    "workbench.tips.enabled": false,
+    "workbench.tree.enableStickyScroll": false,
+    "workbench.activityBar.iconClickBehavior": "focus",
+    "workbench.panel.showLabels": true
+}

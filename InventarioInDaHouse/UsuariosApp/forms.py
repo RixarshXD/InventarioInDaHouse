@@ -1,6 +1,7 @@
 from django import forms
 from .models import Usuario
 
+#Se crean las opciones para el tipo de usuario.
 tipo = [
     ('Sin tipo','---Selecciona un tipo--'),
     ('Vendedor','Vendedor'),
@@ -41,7 +42,7 @@ class FormUsuario(forms.ModelForm):
                 attrs={'class': 'form-control',
                        'type': 'date',
                        'placeholder': 'Fecha de nacimiento'}),
-            
+            # Se agrega el select para el tipo de usuario.
             'tipo_usuario': forms.Select(
                 choices=tipo,
                 attrs={'class': 'form-control',
@@ -49,19 +50,24 @@ class FormUsuario(forms.ModelForm):
 
         }
         
-        
+    
+    # Se crean validaciones para algunos campos:
+    
+    # Validación para el 'nombre'. Solo se permiten letras.
     def clean_nombre(self):
         nombre = self.cleaned_data.get('nombre')
         if not nombre.isalpha():
             raise forms.ValidationError("Un nombre solo debe contener letras.")
         return nombre
 
+    # Validación para el 'apellido'. Solo se permiten letras.
     def clean_apellido(self):
         apellido = self.cleaned_data.get('apellido')
         if not apellido.isalpha():
             raise forms.ValidationError("Un apellido solo debe contener letras.")
         return apellido    
     
+    # Validación para el 'rut'. El rut debe contener guión y no puntos.
     def clean_rut(self):
         rut = self.cleaned_data.get('rut')
         if "-" not in rut:
@@ -79,6 +85,10 @@ class FormUsuario(forms.ModelForm):
             raise forms.ValidationError("El código verificador debe ser un número o 'K'.")
         return rut
     
+
+    # FALTA VALIDAR QUE NO SE REPITA EL TELÉFONO
+    # MEJORAR LA LÓFIGA DE LA VALIDACIÓN DEL TELÉFONO
+    # Validación para el teléfono. El teléfono debe ser un número y tener entre 9 y 12 dígitos.
     def clean_telefono(self):
         telefono = self.cleaned_data.get('telefono')
         if len(telefono) < 9 or len(telefono) > 12:
@@ -87,6 +97,7 @@ class FormUsuario(forms.ModelForm):
             raise forms.ValidationError("El número de teléfono debe ser un número.")
         return telefono
     
+    # Validación para el 'tipo'. La validación convierte la especificación del tipo en un campo obligatorio.
     def clean_tipo(self):
         tipo = self.cleaned_data.get('tipo')
         if tipo == 'Sin tipo':
