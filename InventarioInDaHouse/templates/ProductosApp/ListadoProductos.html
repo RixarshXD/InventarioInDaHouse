@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+</head>
+
+<body>
+    {% extends "index.html" %} {% block content %}
+
+    <div class="table-responsive">
+        {% if productos %}
+        <table class="table table-primary">
+            <thead>
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Descripcion</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Promocion</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for producto in productos %}
+                <tr>
+                    <td scope="row">{{producto.nombre}}</td>
+                    <td scope="row">{{producto.descripcion}}</td>
+                    <td scope="row">{{producto.precio}}</td>
+                    <td scope="row">{{producto.stock}}</td>
+                    <td scope="row">{{producto.promocion}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <h1 class="alert alert-info">No hay productos</h1>
+        {% endif %}
+    </div>
+
+
+    {% endblock %}
+</body>
+
+</html>
