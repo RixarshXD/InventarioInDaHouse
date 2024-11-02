@@ -17,6 +17,7 @@
             <thead>
                 <tr>
                     <th scope="col">Nombre</th>
+                    <th scope="col">Categoria</th>
                     <th scope="col">Descripcion</th>
                     <th scope="col">Precio</th>
                     <th scope="col">Stock</th>
@@ -28,6 +29,7 @@
                 {% for producto in productos %}
                 <tr>
                     <td scope="row">{{producto.nombre}}</td>
+                    <td scope="row">{{producto.categoria}}</td>
                     <td scope="row">{{producto.descripcion}}</td>
                     <td scope="row">{{producto.precio}}</td>
                     <td scope="row">{{producto.stock}}</td>

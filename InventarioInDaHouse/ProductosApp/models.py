@@ -4,8 +4,9 @@ from django.db import models
 
 class Producto(models.Model):
     nombre = models.CharField(max_length=50)
-    descripcion = models.TextField(max_length=100)
+    categoria = models.CharField(max_length=50)
     precio = models.FloatField()
+    descripcion = models.TextField(max_length=100)
     stock = models.IntegerField()
     promocion = models.CharField()
     
