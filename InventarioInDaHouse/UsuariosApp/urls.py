@@ -1,4 +1,4 @@
-from django import path
+from django.urls import path
 from .views import listado_usuarios, registrar_usuario, modificar_usuario, eliminar_usuario
 
 urlpatterns = [
