@@ -29,10 +29,10 @@ def registrar_producto(request):
 # Función para eliminar un producto.
 # Se obtiene el producto a eliminar y se elimina de la base de datos.
 # Se redirige a la lista de productos.
-def eliminar_producto(request, id):
+def eliminar_productos(request, id):
     producto = Producto.objects.get(id=id)
     producto.delete()
-    return redirect('listado_roductos')
+    return redirect(listado_productos)
 
 # Función para actualizar un producto.
 # Se obtiene el producto a actualizar y se crea un formulario con los datos del producto.

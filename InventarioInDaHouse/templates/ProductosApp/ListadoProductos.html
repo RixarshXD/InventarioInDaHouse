@@ -25,6 +25,8 @@
                     <th scope="col">Precio</th>
                     <th scope="col">Stock</th>
                     <th scope="col">Promocion</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
 
@@ -39,7 +41,7 @@
                     <td>{{producto.promocion}}</td>
 
                     <td>
-                        <a href="/productos/actualizar_productos/{{ producto.id }}" class="btn btn-success">Modificar</a>
+                        <a href="/productos/actualizar_producto/{{ producto.id }}" class="btn btn-success">Modificar</a>
                     </td>
                     <td>
                         <a href="/productos/eliminar_productos/{{ producto.id }}" class="btn btn-danger">Eliminar</a>
