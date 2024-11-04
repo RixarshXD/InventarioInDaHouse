@@ -13,7 +13,7 @@
 
     <div class="table-responsive">
         {% if usuarios %}
-        <table class="table table-primary">
+        <table class="table table-dark">
             <thead>
                 <tr>
                     <th scope="col">Nombre</th>
@@ -24,21 +24,29 @@
                     <th scope="col">Telefono</th>
                     <th scope="col">Fecha de Nacimiento</th>
                     <th scope="col">Tipo de Usuario</th>
+                    <th></th>
+                    <th></th>
 
                 </tr>
             </thead>
 
             <tbody>
                 {% for usuario in usuarios %}
-                <tr>
-                    <td scope="row">{{usuario.nombre}}</td>
-                    <td scope="row">{{usuario.apellido}}</td>
-                    <td scope="row">{{usuario.rut}}</td>
-                    <td scope="row">{{usuario.correo}}</td>
-                    <td scope="row">{{usuario.contrasena}}</td>
-                    <td scope="row">{{usuario.telefono}}</td>
-                    <td scope="row">{{usuario.fecha_nacimiento}}</td>
-                    <td scope="row">{{usuario.tipo_usuario}}</td>
+                <tr class="">
+                    <td>{{usuario.nombre}}</td>
+                    <td>{{usuario.apellido}}</td>
+                    <td>{{usuario.rut}}</td>
+                    <td>{{usuario.correo}}</td>
+                    <td>{{usuario.contrasena}}</td>
+                    <td>{{usuario.telefono}}</td>
+                    <td>{{usuario.fecha_nacimiento}}</td>
+                    <td>{{usuario.tipo_usuario}}</td>
+                    <td>
+                        <a href="/usuarios/actualizar_usuario/{{ usuario.id }}" class="btn btn-success">Modificar</a>
+                    </td>
+                    <td>
+                        <a href="/usuarios/eliminar_usuario/{{ usuario.id }}" class="btn btn-danger">Eliminar</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -46,6 +54,13 @@
         {% else %}
         <h1 class="alert alert-info">No hay usuarios</h1>
         {% endif %}
+
+        <div class="d-flex">
+            <a href="../" class="btn btn-danger btn-sm">volver</a>
+            <a href="{% url 'registrar/usuario' %}" class="btn btn-info btn-sm ml-auto">agregar registro</a>
+          </div>
+        </div>
+
     </div>
     {% endblock %}
 </body>

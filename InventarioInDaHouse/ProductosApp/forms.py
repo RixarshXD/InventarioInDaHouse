@@ -4,8 +4,8 @@ from .models import Producto
 # se crean las opciones para el estado de la promoción del producto.
 ESTADOS = [
     ('Sin estado','---Sin estado---'),
-    ('activo','Activo'),
-    ('inactivo','Inactivo')]
+    ('activa','Activa'),
+    ('inactiva','Inactiva')]
 
 # se crean las opciones para la categoría del producto.
 CATEGORIA = [
@@ -58,7 +58,7 @@ class ProductoForm(forms.ModelForm):
     
     # Validación para la 'categoria'. La validación convierte la especificación de la categoría en un campo obligatorio.
     def clean_categoria(self):
-        categoria = self.cleaned_data.get('categooria')
+        categoria = self.cleaned_data.get('categoria')
         if categoria == 'Sin categoría':
             raise forms.ValidationError('Por favor, Seleccione una categoría')
         return categoria

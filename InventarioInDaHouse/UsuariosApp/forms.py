@@ -30,7 +30,7 @@ class FormUsuario(forms.ModelForm):
                 attrs={'class': 'form-control',
                           'placeholder': 'Correo del usuario'}),
             
-            'contrasena': forms.EmailInput(
+            'contrasena': forms.TextInput(
                 attrs={'class': 'form-control',
                        'placeholder': 'Contraseña del doctor'}),
             

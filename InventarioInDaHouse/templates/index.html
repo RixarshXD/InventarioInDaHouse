@@ -3,25 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    {% load static %}
+
     <title>{% block title %}Document{% endblock %}</title>
     <link
       rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    />
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="{% static '/style.css' %}">
   </head>
-
-  <body>
-    <nav class="navbar navbar-expand navbar-light bg-light">
-      <div class="nav navbar-nav">
-        <a class="nav-item nav-link active" href="/" aria-current="page"
-          >Index</a
-        >
-        <a class="nav-item nav-link active" href="/productos"
-          >Listado de productos</a
-        >
-        <a class="nav-item nav-link active" href="/usuarios"
-          >Listado Usuarios</a
-        >
+  
+  <body class="fondo">
+    <img src="{% static '/indahouse-logo.png' %}" alt="logo" class="img-fluid d-block mx-auto"/>
+    <nav class="navbar navbar-expand navbar-dark">
+      <div class="nav navbar-nav mx-auto">
+        <a class="nav-item nav-link active" href="/" aria-current="page">Inicio</a>
+        <a class="nav-item nav-link active" href="/productos">Listado de productos</a>
+        <a class="nav-item nav-link active" href="/usuarios">Listado Usuarios</a>
       </div>
     </nav>
 
