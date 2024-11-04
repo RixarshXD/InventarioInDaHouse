@@ -7,7 +7,6 @@ class Usuario(models.Model):
     rut = models.CharField(max_length=10)
     correo = models.EmailField(max_length=50)
     contrasena = models.CharField(max_length=50)
-    telefono = models.CharField(max_length=12)
     fecha_nacimiento = models.DateField()
     tipo_usuario = models.CharField(max_length=50)
 

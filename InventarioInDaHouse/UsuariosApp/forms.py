@@ -34,10 +34,6 @@ class FormUsuario(forms.ModelForm):
                 attrs={'class': 'form-control',
                        'placeholder': 'Contraseña del doctor'}),
             
-            'telefono': forms.TextInput(
-                attrs={'class': 'form-control',
-                       'placeholder': 'Telefono del usuario'}),
-            
             'fecha_nacimiento': forms.DateInput(
                 attrs={'class': 'form-control',
                        'type': 'date',
@@ -84,18 +80,6 @@ class FormUsuario(forms.ModelForm):
         if len(codigo_verificador) != 1 or (not codigo_verificador.isdigit() and codigo_verificador.lower() != "k"):
             raise forms.ValidationError("El código verificador debe ser un número o 'K'.")
         return rut
-    
-
-    # FALTA VALIDAR QUE NO SE REPITA EL TELÉFONO
-    # MEJORAR LA LÓFIGA DE LA VALIDACIÓN DEL TELÉFONO
-    # Validación para el teléfono. El teléfono debe ser un número y tener entre 9 y 12 dígitos.
-    def clean_telefono(self):
-        telefono = self.cleaned_data.get('telefono')
-        if len(telefono) < 9 or len(telefono) > 12:
-            raise forms.ValidationError("El número de teléfono no es válido.")
-        if not telefono.isdigit():
-            raise forms.ValidationError("El número de teléfono debe ser un número.")
-        return telefono
     
     # Validación para el 'tipo'. La validación convierte la especificación del tipo en un campo obligatorio.
     def clean_tipo(self):
