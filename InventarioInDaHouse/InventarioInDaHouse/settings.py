@@ -79,16 +79,16 @@ WSGI_APPLICATION = 'InventarioInDaHouse.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 
-# BASE DE DATOS POR HACER
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'InventarioInDaHouse',
-        'USER': 'root',
-        'PASSWORD': ''
+        'NAME': 'Base_Riki',
+        'USER': 'admin',
+        'PASSWORD':'4#4$t56pMSf*Cp%K',
+        'HOST':'database-linea-3.cjigqi2qgfyu.us-east-2.rds.amazonaws.com',
+        'PORT':'3306',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
