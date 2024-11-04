@@ -38,7 +38,7 @@ class FormUsuario(forms.ModelForm):
                 attrs={'class': 'form-control',
                        'placeholder': 'Telefono del usuario'}),
             
-            'fechaNacimiento': forms.DateInput(
+            'fecha_nacimiento': forms.DateInput(
                 attrs={'class': 'form-control',
                        'type': 'date',
                        'placeholder': 'Fecha de nacimiento'}),
