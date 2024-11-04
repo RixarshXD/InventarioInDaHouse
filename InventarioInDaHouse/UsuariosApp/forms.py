@@ -20,15 +20,15 @@ class FormUsuario(forms.ModelForm):
             
             'apellido': forms.TextInput(
                 attrs={'class': 'form-control',
-                       'placeholder': 'Apellido del usuario'}),
+                       'placeholder': 'Apellido del Trabajador'}),
             
             'rut': forms.TextInput(
                 attrs={'class': 'form-control',
-                       'placeholder': 'Rut del usuario'}),
+                       'placeholder': 'Rut del Trabajador'}),
             
             'correo': forms.EmailInput(
                 attrs={'class': 'form-control',
-                          'placeholder': 'Correo del usuario'}),
+                          'placeholder': 'Correo del Trabajador'}),
             
             'contrasena': forms.TextInput(
                 attrs={'class': 'form-control',
@@ -42,7 +42,7 @@ class FormUsuario(forms.ModelForm):
             'tipo_usuario': forms.Select(
                 choices=tipo,
                 attrs={'class': 'form-control',
-                       'placeholder': 'Tipo de usuario'}),
+                       'placeholder': 'Tipo de Tranajador'}),
 
         }
         

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-{% extends "index.html" %} 
-{% block content %} 
+{% extends "index.html" %}
+{% block content %}
 {% load static %}
 <html lang="en">
 
@@ -9,10 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
 </head>
 
-<body> 
+<body>
 
     <div class="table-responsive fondo">
         {% if productos %}
@@ -25,8 +25,8 @@
                     <th scope="col">Precio</th>
                     <th scope="col">Stock</th>
                     <th scope="col">Promocion</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
+                    <th scope="col"> </th>
+                    <th scope="col"> </th>
                 </tr>
             </thead>
 
@@ -54,13 +54,13 @@
         <h1 class="alert alert-info">No hay productos</h1>
         {% endif %}
 
-        
+
         <div class="d-flex">
             <a href="/" class="btn btn-danger btn-sm">volver</a>
             <a href="{% url 'registrar/productos' %}" class="btn btn-info btn-sm ml-auto">agregar registro</a>
-          </div>
         </div>
-        
+    </div>
+
     </div>
     {% endblock %}
 </body>
