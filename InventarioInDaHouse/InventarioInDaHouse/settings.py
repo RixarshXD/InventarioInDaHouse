@@ -82,10 +82,10 @@ WSGI_APPLICATION = 'InventarioInDaHouse.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Base_Riki',
+        'NAME': 'inventario_db',
         'USER': 'admin',
-        'PASSWORD':'4#4$t56pMSf*Cp%K',
-        'HOST':'database-linea-3.cjigqi2qgfyu.us-east-2.rds.amazonaws.com',
+        'PASSWORD':'comando11',
+        'HOST':'db-inventario-2.cvkaew4mi7iq.us-east-2.rds.amazonaws.com',
         'PORT':'3306',
     }
 }
