@@ -32,7 +32,10 @@ class FormUsuario(forms.ModelForm):
             
             'contrasena': forms.TextInput(
                 attrs={'class': 'form-control',
-                       'placeholder': 'Contraseña del doctor'}),
+                       'placeholder': 'Contraseña del Trabajador'}),
+            'contrasena2': forms.TextInput(
+                attrs={'class': 'form-control',
+                          'placeholder': 'Repetir Contraseña del Trabajador'}),
             
             'fecha_nacimiento': forms.DateInput(
                 attrs={'class': 'form-control',
@@ -42,8 +45,7 @@ class FormUsuario(forms.ModelForm):
             'tipo_usuario': forms.Select(
                 choices=tipo,
                 attrs={'class': 'form-control',
-                       'placeholder': 'Tipo de Tranajador'}),
-
+                       'placeholder': 'Tipo de Trabajador'}),
         }
         
     

@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    />
-  </head>
 
-  <body>
-    {% extends "index.html" %} {% block content %}
-    <div class="alert alert-info text-center">Registro de Trabajador</div>
-    <form method="post">
-      {{form.as_p}} {% csrf_token %}
-      <input type="submit" value="Registrar" class="btn btn-success" />
-    </form>
-    {% endblock %}
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+</head>
+
+<body>
+  {% extends "index.html" %} {% block content %}
+
+  <div class="alert alert-info text-center">Registro de Trabajador</div>
+  {{error}}
+
+
+  <form method="post">
+    {{form.as_p}} {% csrf_token %}
+    <input type="submit" value="Registrar" class="btn btn-success" />
+  </form>
+
+
+  {% endblock %}
+</body>
+
 </html>
