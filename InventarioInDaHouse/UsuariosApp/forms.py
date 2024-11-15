@@ -6,7 +6,6 @@ class FormUsuario(UserCreationForm):
     class Meta:
         model = Usuario
         fields = [
-            'username',
             'first_name',
             'last_name',
             'rut',
@@ -17,10 +16,6 @@ class FormUsuario(UserCreationForm):
         ]
         
         widgets = {
-            'username': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Nombre de usuario'
-            }),
             'first_name': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Nombre'
@@ -40,8 +35,16 @@ class FormUsuario(UserCreationForm):
             'role': forms.Select(attrs={
                 'class': 'form-control'
             }),
+            'password1': forms.PasswordInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Contraseña'
+            }),
+            'password2': forms.PasswordInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Repetir contraseña'
+            }),
         }
 
 class LoginForm(forms.Form):
-    username = forms.CharField(label='Usuario', widget=forms.TextInput)
-    password = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
+    email = forms.EmailField(label='Correo electrónico', widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    password = forms.CharField(label='Contraseña', widget=forms.PasswordInput(attrs={'class': 'form-control'}))

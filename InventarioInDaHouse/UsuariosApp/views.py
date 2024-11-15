@@ -18,15 +18,15 @@ def loginUsuario(request):
         form = LoginForm(request.POST)
         if form.is_valid():
             try:
-                username = form.cleaned_data.get('username')
+                email = form.cleaned_data.get('email')
                 password = form.cleaned_data.get('password')
-                user = authenticate(username=username, password=password)
+                user = authenticate(email=email, password=password)
                 if user is not None:
                     login(request, user)
-                    messages.success(request, f'Bienvenido {username}!')
+                    messages.success(request, f'Bienvenido {user.first_name}!')
                     return redirect('/')
                 else:
-                    messages.error(request, 'Usuario o contraseña incorrectos')
+                    messages.error(request, 'Email o contraseña incorrectos')
             except Exception as e:
                 messages.error(request, f'Error al iniciar sesión: {str(e)}')
         else:
@@ -57,7 +57,7 @@ def listado_usuarios(request):
                 usuario.real_password = "********"  # contraseña por defecto si no está guardada
         
         try:
-            usuario_actual = Usuario.objects.get(username=request.user.username)
+            usuario_actual = Usuario.objects.get(email=request.user.email)
             show_passwords = usuario_actual.role == 'gerente' or request.user.is_superuser
         except Usuario.DoesNotExist:
             show_passwords = request.user.is_superuser
@@ -83,11 +83,10 @@ def registrar_usuario(request):
                     return render(request, 'UsuariosApp/RegistrarUsuario.html', {'form': form})
 
                 usuario = Usuario.objects.create_user(
-                    username=form.cleaned_data['username'],
+                    email=form.cleaned_data['email'],
                     password=form.cleaned_data['password1'],
                     first_name=form.cleaned_data['first_name'],
                     last_name=form.cleaned_data['last_name'],
-                    email=form.cleaned_data['email'],
                     role=form.cleaned_data['role'],
                     rut=form.cleaned_data['rut'],
                     real_password=form.cleaned_data['password1']  # Guardamos la contraseña real
