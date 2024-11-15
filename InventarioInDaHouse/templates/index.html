@@ -1,23 +1,33 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  {% load static %}
-
   <title>{% block title %}Document{% endblock %}</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="{% static '/style.css' %}" />
+  <link rel="stylesheet" href="{% static 'style.css' %}" />
 </head>
 
 <body class="fondo">
-  <img src="{% static '/indahouse-logo.png' %}" alt="logo" class="img-fluid d-block mx-auto" />
+  <img src="{% static 'indahouse-logo.png' %}" alt="logo" class="img-fluid d-block mx-auto" />
   <nav class="navbar navbar-expand navbar-dark">
+
     <div class="nav navbar-nav mx-auto">
+
+      {% if user.is_authenticated %}
       <a class="nav-item nav-link active" href="/productos">Listado de productos</a>
       <a class="nav-item nav-link active" href="/usuarios">Listado Trabajador</a>
+      {% endif %}
+
+      {% if user.is_authenticated %}
+      <span class="nav-item nav-link">Hola, {{ user.username }}</span>
+      <a class="nav-item nav-link" href="{% url 'logout' %}">Cerrar sesión</a>
+      {% else %}
+      <a class="nav-item nav-link" href="{% url 'login' %}">Iniciar sesión</a>
+      {% endif %}
     </div>
   </nav>
 

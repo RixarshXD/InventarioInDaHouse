@@ -1,6 +1,18 @@
 .fondo {
-    background-color: #111; 
-    color:white;
-    padding: 20px;
-    border-radius: 8px;
+  background-color: #111;
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.password-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.password-field {
+  flex: 1;
+}
+.toggle-password {
+  margin-left: 5px;
 }

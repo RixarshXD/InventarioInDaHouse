@@ -1,57 +1,111 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required, permission_required
 from .models import Usuario
-from .forms import FormUsuario
-from django.http import HttpResponse
+from .forms import FormUsuario, LoginForm
+from django.core.exceptions import PermissionDenied
+from django.contrib import messages
 
 
-def listado_usuarios(request):
+
+# modificar
+def loginUsuario(request):
     """
-    Se crea la vista para el listado de usuarios,
-    Se obtienen todos los usuarios de la base de datos y se envían al template 'ListadoUsuarios.html'.
+    Vista para iniciar sesión.
     """
-    usuarios = Usuario.objects.all()
-    data = {'usuarios': usuarios}
-    return render(request, 'UsuariosApp/ListadoUsuarios.html', data)
-
-
-
-def registrar_usuario(request):  
-    """
-    # Se crea la vista para registrar un usuario.
-    # Se crea un formulario vacío para registrar un usuario.
-    # Si el formulario es válido, se guarda el usuario en la base de datos y se redirige a la lista de usuarios.
-    """
-    form = FormUsuario()
-    # if request.method == 'POST':
-    #     form = FormUsuario(request.POST)
-    #     if form.is_valid():
-    #         #depurar
-    #         print(request.POST)
-    #         form.save()
-    #         return listado_usuarios(request)
-    # data = {'form': form}
-    # return render(request, 'UsuariosApp/RegistrarUsuario.html',data)
-    
-    if request.method == 'GET':
-        return render(request, 'UsuariosApp/RegistrarUsuario.html', {'form': form})
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            try:
+                username = form.cleaned_data.get('username')
+                password = form.cleaned_data.get('password')
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                    messages.success(request, f'Bienvenido {username}!')
+                    return redirect('/')
+                else:
+                    messages.error(request, 'Usuario o contraseña incorrectos')
+            except Exception as e:
+                messages.error(request, f'Error al iniciar sesión: {str(e)}')
+        else:
+            messages.error(request, 'Por favor, complete todos los campos correctamente')
     else:
-        try: 
-            form = FormUsuario(request.POST)
-            if request.POST['contrasena'] == request.POST['contrasena2']:
-                if form.is_valid():
-                    user = User.objects.create_user(username=request.POST['nombre'], password=request.POST['contrasena'])
-                    user.save()
-                    form.save()
-                return render(request, 'UsuariosApp/RegistrarUsuario.html', {'form': form, 'error': 'Usuario registrado correctamente'})
-        except:
-            return render(request, 'UsuariosApp/RegistrarUsuario.html', {'form': form, 'error': 'El usuario ya existe'})
+        form = LoginForm()
+    
+    return render(request, 'UsuariosApp/Login.html', {'form': form})
 
-    return render(request, 'UsuariosApp/RegistrarUsuario.html', {'form': form, 'error': 'Las contraseñas no coinciden'})
+
+def logoutUsuario(request):
+    """
+    Se crea la vista para cerrar sesión.
+    """
+    logout(request)
+    return redirect('/')
+
+@login_required
+def listado_usuarios(request):
+    try:
+        if not request.user.is_authenticated:
+            return redirect(loginUsuario)
+        
+        usuarios = Usuario.objects.all()
+        # Asegurarnos que cada usuario tenga su contraseña
+        for usuario in usuarios:
+            if not hasattr(usuario, 'real_password'):
+                usuario.real_password = "********"  # contraseña por defecto si no está guardada
+        
+        try:
+            usuario_actual = Usuario.objects.get(username=request.user.username)
+            show_passwords = usuario_actual.role == 'gerente' or request.user.is_superuser
+        except Usuario.DoesNotExist:
+            show_passwords = request.user.is_superuser
+            
+        data = {
+            'usuarios': usuarios,
+            'show_passwords': show_passwords,
+            'is_admin': request.user.is_superuser
+        }
+        return render(request, 'UsuariosApp/ListadoUsuarios.html', data)
+    except PermissionDenied:
+        messages.warning(request, 'No tienes permisos para acceder a esta página.')
+        return render(request, 'UsuariosApp/ListadoUsuarios.html')
+
+
+def registrar_usuario(request):
+    if request.method == 'POST':
+        form = FormUsuario(request.POST)
+        if form.is_valid():
+            try:
+                if form.cleaned_data['password1'] != form.cleaned_data['password2']:
+                    messages.error(request, 'Las contraseñas no coinciden')
+                    return render(request, 'UsuariosApp/RegistrarUsuario.html', {'form': form})
+
+                usuario = Usuario.objects.create_user(
+                    username=form.cleaned_data['username'],
+                    password=form.cleaned_data['password1'],
+                    first_name=form.cleaned_data['first_name'],
+                    last_name=form.cleaned_data['last_name'],
+                    email=form.cleaned_data['email'],
+                    role=form.cleaned_data['role'],
+                    rut=form.cleaned_data['rut'],
+                    real_password=form.cleaned_data['password1']  # Guardamos la contraseña real
+                )
+                usuario.real_password = form.cleaned_data['password1']  # Guardar contraseña sin encriptar
+                usuario.save()
+                messages.success(request, 'Usuario registrado correctamente')
+                return redirect('listado')
+            except Exception as e:
+                messages.error(request, f'Error al registrar: {str(e)}')
+    else:
+        form = FormUsuario()
+    
+    return render(request, 'UsuariosApp/RegistrarUsuario.html', {'form': form})
 
 
     
-
+@login_required
 def eliminar_usuario(request, id):
     """
     Se crea la vista para eliminar un usuario.
@@ -62,6 +116,7 @@ def eliminar_usuario(request, id):
     usuario.delete()
     return redirect(listado_usuarios)
 
+@login_required 
 def actualizar_usuario(request, id):
     """
     Se crea la vista para actualizar un usuario.
@@ -77,3 +132,8 @@ def actualizar_usuario(request, id):
             return listado_usuarios(request)
     data = {'form': form}
     return render(request,'UsuariosApp/RegistrarUsuario.html', data)
+
+
+
+
+

@@ -1,49 +1,54 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from .models import Producto
 from .forms import ProductoForm
+
 
 # Función para la página de inicio.
 def index(request):
     return render(request, 'index.html')
 
-# Función para el listado de productos.
-# Se obtienen todos los productos de la base de datos y se envían al template 'ListadoProductos.html'.
+@login_required
 def listado_productos(request):
     productos = Producto.objects.all()
-    data = {'productos': productos}
-    return render(request, 'ProductosApp/ListadoProductos.html', data)
+    return render(request, 'ProductosApp/ListadoProductos.html', {'productos': productos})
 
-# Función para registrar un producto.
-# Se crea un formulario vacío para registrar un producto.
-# Si el formulario es válido, se guarda el producto en la base de datos y se redirige a la lista de productos.
+@login_required
 def registrar_producto(request):
-    form = ProductoForm()
     if request.method == 'POST':
         form = ProductoForm(request.POST)
         if form.is_valid():
             form.save()
-            return listado_productos(request)
-    data = {'form':form}
-    return render(request, 'ProductosApp/RegistrarProducto.html', data)
+            messages.success(request, 'Producto registrado exitosamente')
+            return redirect('listado_productos')
+    else:
+        form = ProductoForm()
+    return render(request, 'ProductosApp/RegistrarProducto.html', {'form': form})
 
-# Función para eliminar un producto.
-# Se obtiene el producto a eliminar y se elimina de la base de datos.
-# Se redirige a la lista de productos.
-def eliminar_productos(request, id):
-    producto = Producto.objects.get(id=id)
-    producto.delete()
-    return redirect(listado_productos)
+@login_required
+def detalle_producto(request, pk):
+    producto = get_object_or_404(Producto, pk=pk)
+    return render(request, 'ProductosApp/DetallesProductos.html', {'producto': producto})
 
-# Función para actualizar un producto.
-# Se obtiene el producto a actualizar y se crea un formulario con los datos del producto.
-# Si el formulario es válido, se actualiza el producto y se redirige a la lista de productos.
+@login_required
 def actualizar_producto(request, id):
-    producto = Producto.objects.get(id=id)
-    form = ProductoForm(instance=producto)
+    producto = get_object_or_404(Producto, id=id)
     if request.method == 'POST':
         form = ProductoForm(request.POST, instance=producto)
         if form.is_valid():
             form.save()
-            return listado_productos(request)
-    data = {'form': form}
-    return render(request,'ProductosApp/RegistrarProducto.html', data)
+            messages.success(request, 'Producto actualizado correctamente')
+            return redirect('listado_productos')
+    else:
+        form = ProductoForm(instance=producto)
+    return render(request, 'ProductosApp/RegistrarProducto.html', {'form': form})
+
+@login_required
+def eliminar_producto(request, pk):
+    producto = get_object_or_404(Producto, pk=pk)
+    if request.method == 'POST':
+        producto.delete()
+        messages.success(request, 'Producto eliminado exitosamente')
+        return redirect('listado_productos')
+    return redirect('listado_productos')

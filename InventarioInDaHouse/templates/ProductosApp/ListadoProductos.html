@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% extends "index.html" %}
+{% extends 'index.html' %}
 {% block content %}
 {% load static %}
 <html lang="en">
@@ -8,57 +8,68 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
 </head>
 
 <body>
 
-    <div class="table-responsive fondo">
-        {% if productos %}
-        <table class="table table-dark">
+    <div class="container mt-4">
+        <div class="row mb-3">
+            <div class="col">
+                <h2>Listado de Productos</h2>
+            </div>
+            <div class="col text-end">
+                <a href="{% url 'registrar_producto' %}" class="btn btn-primary">
+                    Nuevo Producto
+                </a>
+            </div>
+        </div>
+
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Categoria</th>
-                    <th scope="col">Descripcion</th>
-                    <th scope="col">Precio</th>
-                    <th scope="col">Stock</th>
-                    <th scope="col">Promocion</th>
-                    <th scope="col"> </th>
-                    <th scope="col"> </th>
+                    <th>SKU</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th>Categoría</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
-
             <tbody>
                 {% for producto in productos %}
-                <tr class="">
-                    <td>{{producto.nombre}}</td>
-                    <td>{{producto.categoria}}</td>
-                    <td>{{producto.descripcion}}</td>
-                    <td>{{producto.precio}}</td>
-                    <td>{{producto.stock}}</td>
-                    <td>{{producto.promocion}}</td>
-
+                <tr>
+                    <td>{{ producto.sku }}</td>
+                    <td>{{ producto.nombre }}</td>
+                    <td>${{ producto.precio }}</td>
+                    <td>{{ producto.stock }}</td>
+                    <td>{{ producto.categoria.nombre }}</td>
                     <td>
-                        <a href="/productos/actualizar_producto/{{ producto.id }}" class="btn btn-success">Modificar</a>
+                        <a href="{% url 'detalle_producto' producto.id %}" class="btn btn-info btn-sm">Ver</a>
+                        <a href="{% url 'actualizar_producto' producto.id %}" class="btn btn-warning btn-sm">Editar</a>
+                        <form action="{% url 'eliminar_producto' producto.id %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm"
+                                onclick="return confirm('¿Estás seguro?')">Eliminar</button>
+                        </form>
                     </td>
-                    <td>
-                        <a href="/productos/eliminar_productos/{{ producto.id }}" class="btn btn-danger">Eliminar</a>
-                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">No hay productos registrados</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        {% else %}
-        <h1 class="alert alert-info">No hay productos</h1>
-        {% endif %}
-
-
-        <div class="d-flex">
-            <a href="/" class="btn btn-danger btn-sm">volver</a>
-            <a href="{% url 'registrar/productos' %}" class="btn btn-info btn-sm ml-auto">agregar registro</a>
-        </div>
     </div>
 
     </div>

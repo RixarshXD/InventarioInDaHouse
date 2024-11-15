@@ -1,5 +1,5 @@
 from django import forms
-from .models import Producto
+from .models import Producto, Categoria, Proveedor
 
 # se crean las opciones para el estado de la promoción del producto.
 ESTADOS = [
@@ -22,29 +22,16 @@ CATEGORIA = [
 class ProductoForm(forms.ModelForm):
     class Meta:
         model = Producto
-        fields = '__all__'
+        fields = ['nombre', 'descripcion', 'precio', 'stock', 'sku', 'categoria', 'proveedor', 'promocion']
         widgets = {
-            'nombre': forms.TextInput(
-                attrs={'class':'form-control'}),
-            
-            # se agrega el select para la categoría.
-            'categoria': forms.Select(
-                choices=CATEGORIA,
-                attrs={'class':'form-control'}),
-            
-            'descripcion': forms.Textarea(
-                attrs={'class':'form-control'}),
-            
-            'precio': forms.NumberInput(
-                attrs={'class':'form-control'}),
-            
-            'stock': forms.NumberInput(
-                attrs={'class':'form-control'}),
-            
-            # se agrega el select para el estado de la promoción.
-            'promocion': forms.Select(
-                choices=ESTADOS, 
-                attrs={'class':'form-control'}),
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'precio': forms.NumberInput(attrs={'class': 'form-control'}),
+            'stock': forms.NumberInput(attrs={'class': 'form-control'}),
+            'sku': forms.TextInput(attrs={'class': 'form-control'}),
+            'categoria': forms.Select(attrs={'class': 'form-control'}),
+            'proveedor': forms.Select(attrs={'class': 'form-control'}),
+            'promocion': forms.TextInput(attrs={'class': 'form-control'}),
         }
      
     # Se crean validaaciones para algunos campos:
@@ -76,4 +63,3 @@ class ProductoForm(forms.ModelForm):
         if promocion == 'Sin estado':
             raise forms.ValidationError('Por favor, Seleccione un estado')
         return promocion
-

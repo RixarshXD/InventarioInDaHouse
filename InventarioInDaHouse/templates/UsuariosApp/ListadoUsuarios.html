@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -21,7 +23,6 @@
                     <th scope="col">Rut</th>
                     <th scope="col">Correo</th>
                     <th scope="col">Contraseña</th>
-                    <th scope="col">Fecha de Nacimiento</th>
                     <th scope="col">Tipo de Trabajador</th>
                     <th></th>
                     <th></th>
@@ -32,13 +33,24 @@
             <tbody>
                 {% for usuario in usuarios %}
                 <tr class="">
-                    <td>{{usuario.nombre}}</td>
-                    <td>{{usuario.apellido}}</td>
+                    <td>{{usuario.first_name}}</td>
+                    <td>{{usuario.last_name}}</td>
                     <td>{{usuario.rut}}</td>
-                    <td>{{usuario.correo}}</td>
-                    <td>{{usuario.contrasena}}</td>
-                    <td>{{usuario.fecha_nacimiento}}</td>
-                    <td>{{usuario.tipo_usuario}}</td>
+                    <td>{{usuario.email}}</td>
+                    <td>
+                        {% if show_passwords or is_admin %}
+                        <div class="d-flex align-items-center">
+                            <span class="password-text">*********</span>
+                            <button class="btn btn-sm btn-secondary toggle-password"
+                                data-password="{{usuario.real_password}}">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        {% else %}
+                        <span>*********</span>
+                        {% endif %}
+                    </td>
+                    <td>{{usuario.role}}</td>
                     <td>
                         <a href="/usuarios/actualizar_usuario/{{ usuario.id }}" class="btn btn-success">Modificar</a>
                     </td>
@@ -56,11 +68,44 @@
         <div class="d-flex">
             <a href="/" class="btn btn-danger btn-sm">volver</a>
             <a href="{% url 'registrar/usuario' %}" class="btn btn-info btn-sm ml-auto">agregar registro</a>
-          </div>
         </div>
+    </div>
+
+    {% load static %}
+    <script src="{% static 'static/js/script.js' %}"></script>
+
+    {% block extra_js %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleButtons = document.querySelectorAll('.toggle-password');
+
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const passwordText = this.parentElement.querySelector('.password-text');
+                    const realPassword = this.dataset.password;
+                    const icon = this.querySelector('i');
+
+                    if (passwordText.textContent === '*********') {
+                        passwordText.textContent = realPassword;
+                        icon.classList.remove('fa-eye');
+                        icon.classList.add('fa-eye-slash');
+                    } else {
+                        passwordText.textContent = '*********';
+                        icon.classList.remove('fa-eye-slash');
+                        icon.classList.add('fa-eye');
+                    }
+                });
+            });
+        });
+    </script>
+    {% endblock %}
 
     </div>
     {% endblock %}
+
+
+
+
 </body>
 
 </html>
