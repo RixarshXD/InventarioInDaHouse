@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Producto
-from .forms import ProductoForm
+from .forms import ProductoForm, CategoriaForm, ProveedorForm
 
 
 # Función para la página de inicio.
@@ -52,3 +52,27 @@ def eliminar_producto(request, pk):
         messages.success(request, 'Producto eliminado exitosamente')
         return redirect('listado_productos')
     return redirect('listado_productos')
+
+@login_required
+def registrar_categoria(request):
+    if request.method == 'POST':
+        form = CategoriaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Categoría registrada exitosamente')
+            return redirect('listado_productos')
+    else:
+        form = CategoriaForm()
+    return render(request, 'ProductosApp/RegistrarCategoria.html', {'form': form})
+
+@login_required
+def registrar_proveedor(request):
+    if request.method == 'POST':
+        form = ProveedorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Proveedor registrado exitosamente')
+            return redirect('listado_productos')
+    else:
+        form = ProveedorForm()
+    return render(request, 'ProductosApp/RegistrarProveedor.html', {'form': form})

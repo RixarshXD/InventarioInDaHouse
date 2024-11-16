@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% extends 'index.html' %}
+{% block title %}Listado de Productos{% endblock %}
 {% block content %}
 
 <html lang="en">
@@ -59,9 +60,8 @@
                                 <td>{{ producto.categoria.nombre }}</td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <a href="{% url 'detalle_producto' producto.id %}"
-                                            class="btn btn-sm btn-outline-info">
-                                            <i class="bi bi-eye-fill"></i>
+                                        <a href="{% url 'detalle_producto' producto.id %}" class="btn btn-sm btn-info">
+                                            Ver detalles
                                         </a>
                                         <a href="{% url 'actualizar_producto' producto.id %}"
                                             class="btn btn-sm btn-outline-warning">
