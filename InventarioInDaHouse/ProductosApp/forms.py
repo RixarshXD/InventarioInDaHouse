@@ -1,5 +1,5 @@
 from django import forms
-from .models import Producto, Categoria, Proveedor
+from .models import Producto, Categoria, Proveedor, RegistroInventario
 
 # se crean las opciones para el estado de la promoción del producto.
 ESTADOS = [
@@ -88,3 +88,8 @@ class ProveedorForm(forms.ModelForm):
             'info_contacto': forms.TextInput(attrs={'class': 'form-control'}),
             'direccion': forms.TextInput(attrs={'class': 'form-control'}),
         }
+
+class RegistroInventarioForm(forms.ModelForm):
+    class Meta:
+        model = RegistroInventario
+        fields = ['producto', 'cantidad']

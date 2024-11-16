@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Producto
-from .forms import ProductoForm, CategoriaForm, ProveedorForm
+from .models import Producto, RegistroInventario
+from .forms import ProductoForm, CategoriaForm, ProveedorForm, RegistroInventarioForm
 
 
 # Función para la página de inicio.
@@ -76,3 +76,27 @@ def registrar_proveedor(request):
     else:
         form = ProveedorForm()
     return render(request, 'ProductosApp/RegistrarProveedor.html', {'form': form})
+
+@login_required
+def lista_registros(request):
+    registros = RegistroInventario.objects.all().order_by('-fecha')
+    return render(request, 'ProductosApp/registros_lista.html', {'registros': registros})
+
+@login_required
+def agregar_registro(request):
+    if request.method == 'POST':
+        form = RegistroInventarioForm(request.POST)
+        if form.is_valid():
+            registro = form.save(commit=False)
+            registro.usuario = request.user
+            registro.save()
+            
+            # Actualizar el stock del producto
+            producto = registro.producto
+            producto.stock += registro.cantidad
+            producto.save()
+            
+            return redirect('lista_registros')
+    else:
+        form = RegistroInventarioForm()
+    return render(request, 'ProductosApp/registro_form.html', {'form': form})
