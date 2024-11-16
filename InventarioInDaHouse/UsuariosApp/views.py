@@ -51,10 +51,6 @@ def listado_usuarios(request):
             return redirect(loginUsuario)
         
         usuarios = Usuario.objects.all()
-        # Asegurarnos que cada usuario tenga su contraseña
-        for usuario in usuarios:
-            if not hasattr(usuario, 'real_password'):
-                usuario.real_password = "********"  # contraseña por defecto si no está guardada
         
         try:
             usuario_actual = Usuario.objects.get(email=request.user.email)
@@ -131,6 +127,7 @@ def actualizar_usuario(request, id):
             return listado_usuarios(request)
     data = {'form': form}
     return render(request,'UsuariosApp/RegistrarUsuario.html', data)
+
 
 
 

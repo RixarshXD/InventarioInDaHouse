@@ -26,8 +26,17 @@
             </div>
         </div>
         <div class="card-footer">
-            <a href="{% url 'listado_productos' %}" class="btn btn-secondary">Volver</a>
-            <a href="{% url 'actualizar_producto' producto.id %}" class="btn btn-warning">Editar</a>
+            <div class="btn-group">
+                <a href="{% url 'listado_productos' %}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Volver
+                </a>
+                <a href="{% url 'actualizar_producto' producto.id %}" class="btn btn-outline-warning">
+                    <i class="bi bi-pencil"></i> Editar
+                </a>
+                <a href="{% url 'registrar_producto' %}" class="btn btn-outline-primary">
+                    <i class="bi bi-plus-circle"></i> Nuevo
+                </a>
+            </div>
         </div>
     </div>
 </div>
