@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from ProductosApp.views import index
+from UsuariosApp import views
 
 #Se incluyen las urls de las aplicaciones. Donde cada una tiene su propio archivo de urls.
 urlpatterns = [
@@ -23,4 +24,6 @@ urlpatterns = [
     path('', index),
     path('productos/', include('ProductosApp.urls')),
     path('usuarios/', include('UsuariosApp.urls')),
+    path('login/', views.loginUsuario, name='login'),
+    path('logout/', views.logoutUsuario, name='logout'),
 ]

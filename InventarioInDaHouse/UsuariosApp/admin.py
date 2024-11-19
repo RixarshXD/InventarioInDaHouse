@@ -2,24 +2,24 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import Usuario
 
-class UsuarioAdmin(UserAdmin):
+class CustomUserAdmin(UserAdmin):
+    model = Usuario
+    list_display = ('email', 'first_name', 'last_name', 'role', 'rut', 'is_staff')
     ordering = ('email',)
-    list_display = ('email', 'first_name', 'last_name', 'role', 'is_staff')
-    search_fields = ('email', 'first_name', 'last_name')
-    list_filter = ('is_staff', 'is_superuser', 'role')
+    search_fields = ('email', 'first_name', 'last_name', 'rut')
+    list_filter = ('role', 'is_staff', 'is_superuser')
     
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('Información Personal', {'fields': ('first_name', 'last_name', 'rut', 'role')}),
         ('Permisos', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
-        ('Fechas Importantes', {'fields': ('last_login', 'date_joined')}),
     )
     
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2', 'first_name', 'last_name', 'rut', 'role'),
-        }),
+            'fields': ('email', 'password1', 'password2', 'first_name', 'last_name', 'rut', 'role', 'is_staff', 'is_superuser')}
+        ),
     )
 
-admin.site.register(Usuario, UsuarioAdmin)
+admin.site.register(Usuario, CustomUserAdmin)
