@@ -4,7 +4,7 @@ from django.contrib import messages
 from .models import Producto, RegistroInventario
 from .forms import ProductoForm, CategoriaForm, ProveedorForm, RegistroInventarioForm
 import pandas as pd
-from .models import Producto, Categoria
+from .models import Producto, Categoria, Proveedor  # Añadir Proveedor a los imports
 
 # Función para la página de inicio.
 def index(request):
@@ -108,20 +108,47 @@ def cargar_excel(request):
         try:
             excel_file = request.FILES['archivo_excel']
             df = pd.read_excel(excel_file)
+            
+            # Normalizar nombres de columnas
+            df.columns = [col.lower().strip() for col in df.columns]
             productos_nuevos = []
             
             for _, row in df.iterrows():
                 try:
-                    categoria, _ = Categoria.objects.get_or_create(nombre=row['categoria'])
+                    # Obtener o crear la categoría
+                    categoria_nombre = str(row['categoria']).strip()
+                    categoria, _ = Categoria.objects.get_or_create(
+                        nombre__iexact=categoria_nombre,
+                        defaults={'nombre': categoria_nombre}
+                    )
+                    
+                    # Obtener o crear el proveedor
+                    if 'proveedor' in df.columns and pd.notna(row['proveedor']):
+                        proveedor_nombre = str(row['proveedor']).strip()
+                        proveedor, _ = Proveedor.objects.get_or_create(
+                            nombre__iexact=proveedor_nombre,
+                            defaults={
+                                'nombre': proveedor_nombre,
+                                'info_contacto': 'Pendiente',
+                                'direccion': 'Pendiente'
+                            }
+                        )
+                    else:
+                        proveedor = None
+
                     producto = Producto(
-                        sku=row['SKU'],
-                        nombre=row['Nombre'],
-                        precio=row['precio'],
-                        stock=row['stock'],
+                        sku=str(row['sku']).strip(),
+                        nombre=str(row['nombre']).strip(),
+                        precio=float(row['precio']),
+                        stock=int(row['stock']),
                         categoria=categoria,
-                        descripcion='Importado desde Excel'
+                        proveedor=proveedor,
+                        descripcion='Importado desde Excel',
+                        promocion=row.get('promocion', None)
                     )
                     productos_nuevos.append(producto)
+                except KeyError as e:
+                    messages.error(request, f'Error en fila {_ + 2}: Columna {e} no encontrada')
                 except Exception as e:
                     messages.error(request, f'Error en fila {_ + 2}: {str(e)}')
                     
