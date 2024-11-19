@@ -3,7 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Producto, RegistroInventario
 from .forms import ProductoForm, CategoriaForm, ProveedorForm, RegistroInventarioForm
-
+import pandas as pd
+from .models import Producto, Categoria
 
 # Función para la página de inicio.
 def index(request):
@@ -100,3 +101,36 @@ def agregar_registro(request):
     else:
         form = RegistroInventarioForm()
     return render(request, 'ProductosApp/registro_form.html', {'form': form})
+
+@login_required
+def cargar_excel(request):
+    if request.method == 'POST' and request.FILES['archivo_excel']:
+        try:
+            excel_file = request.FILES['archivo_excel']
+            df = pd.read_excel(excel_file)
+            productos_nuevos = []
+            
+            for _, row in df.iterrows():
+                try:
+                    categoria, _ = Categoria.objects.get_or_create(nombre=row['categoria'])
+                    producto = Producto(
+                        sku=row['SKU'],
+                        nombre=row['Nombre'],
+                        precio=row['precio'],
+                        stock=row['stock'],
+                        categoria=categoria,
+                        descripcion='Importado desde Excel'
+                    )
+                    productos_nuevos.append(producto)
+                except Exception as e:
+                    messages.error(request, f'Error en fila {_ + 2}: {str(e)}')
+                    
+            if productos_nuevos:
+                Producto.objects.bulk_create(productos_nuevos)
+                messages.success(request, 'Productos importados exitosamente')
+            
+            return redirect('listado_productos')
+        except Exception as e:
+            messages.error(request, f'Error al procesar el archivo: {str(e)}')
+            
+    return render(request, 'ProductosApp/cargar_excel.html')

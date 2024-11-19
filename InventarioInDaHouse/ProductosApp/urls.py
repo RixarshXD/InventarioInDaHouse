@@ -11,4 +11,5 @@ urlpatterns = [
     path('proveedor/nuevo/', views.registrar_proveedor, name='registrar_proveedor'),
     path('registros/', views.lista_registros, name='lista_registros'),
     path('registros/nuevo/', views.agregar_registro, name='agregar_registro'),
+    path('cargar-excel/', views.cargar_excel, name='cargar_excel'),
 ]

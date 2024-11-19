@@ -1,0 +1,36 @@
+{% extends 'index.html' %}
+{% block title %}Cargar Excel{% endblock %}
+{% block content %}
+
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-white py-3">
+            <h5 class="mb-0">Cargar Archivo Excel</h5>
+        </div>
+        <div class="card-body">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="archivo_excel" class="form-label">Seleccionar archivo Excel</label>
+                    <input type="file" class="form-control" id="archivo_excel" name="archivo_excel" accept=".xlsx, .xls"
+                        required>
+                    <div class="form-text">El archivo debe contener las columnas: SKU, Nombre, precio, stock, categoria
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Cargar Excel</button>
+                <a href="{% url 'listado_productos' %}" class="btn btn-secondary">Volver</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
