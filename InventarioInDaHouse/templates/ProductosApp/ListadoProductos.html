@@ -32,6 +32,29 @@
                 </div>
             </div>
             <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <form method="get" class="form-inline">
+                            <div class="input-group mr-2">
+                                <input type="text" class="form-control" name="nombre" placeholder="Buscar por nombre"
+                                    value="{{ nombre_busqueda }}">
+                            </div>
+                            <div class="input-group mr-2">
+                                <select class="form-control" name="categoria">
+                                    <option value="">Todas las categorías</option>
+                                    {% for categoria in categorias %}
+                                    <option value="{{ categoria.id }}" {{
+                                        categoria.id|stringformat:"s"==categoria_seleccionada|default:""
+                                        |stringformat:"s" |yesno:"selected," }}>{{ categoria.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary mr-2">Filtrar</button>
+                            <a href="{% url 'listado_productos' %}" class="btn btn-secondary">Limpiar</a>
+                        </form>
+                    </div>
+                </div>
+
                 {% if messages %}
                 {% for message in messages %}
                 <div class="alert alert-{{ message.tags }} alert-dismissible fade show">

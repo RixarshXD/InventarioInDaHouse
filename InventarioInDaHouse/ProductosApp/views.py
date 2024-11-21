@@ -13,7 +13,25 @@ def index(request):
 @login_required
 def listado_productos(request):
     productos = Producto.objects.all()
-    return render(request, 'ProductosApp/ListadoProductos.html', {'productos': productos})
+    categorias = Categoria.objects.all()
+    
+    # Filtros
+    nombre_busqueda = request.GET.get('nombre', '')
+    categoria_id = request.GET.get('categoria', '')
+    
+    if nombre_busqueda:
+        productos = productos.filter(nombre__icontains=nombre_busqueda)
+    
+    if categoria_id:
+        productos = productos.filter(categoria_id=categoria_id)
+    
+    context = {
+        'productos': productos,
+        'categorias': categorias,
+        'nombre_busqueda': nombre_busqueda,
+        'categoria_seleccionada': categoria_id
+    }
+    return render(request, 'ProductosApp/ListadoProductos.html', context)
 
 @login_required
 def registrar_producto(request):
