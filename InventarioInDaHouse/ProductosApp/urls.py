@@ -1,5 +1,11 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
+from .api import ProductoViewSet
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register('productos', ProductoViewSet, 'productos')
+
 
 urlpatterns = [
     path('', views.listado_productos, name='listado_productos'),
@@ -12,4 +18,7 @@ urlpatterns = [
     path('registros/', views.lista_registros, name='lista_registros'),
     path('registros/nuevo/', views.agregar_registro, name='agregar_registro'),
     path('cargar-excel/', views.cargar_excel, name='cargar_excel'),
+    
+    # URL API
+    path('api/', include(router.urls), name='api'),
 ]
