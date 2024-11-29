@@ -25,7 +25,7 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         {% if user.is_authenticated %}
         <ul class="navbar-nav me-auto">
-          {% if user.role == 'Gerente' or user.is_superuser %}
+          {% if user.role == 'Gerente' or user.is_superuser or user.role == 'Encargado' %}
           <!-- Mostrar todas las opciones -->
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
