@@ -33,7 +33,7 @@
                         <td class="{% if registro.cantidad > 0 %}text-success{% else %}text-danger{% endif %}">
                             {{ registro.cantidad }}
                         </td>
-                        <td>{{ registro.usuario.username }}</td>
+                        <td>{{ registro.usuario.first_name }}</td>
                     </tr>
                     {% empty %}
                     <tr>

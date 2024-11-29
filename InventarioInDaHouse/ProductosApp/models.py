@@ -30,10 +30,10 @@ class Proveedor(models.Model):
         return self.nombre
 
 class RegistroInventario(models.Model):
-    usuario = models.ForeignKey('UsuariosApp.Usuario', on_delete=models.CASCADE)
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='registros')
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     cantidad = models.IntegerField()
     fecha = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.producto.nombre} - {self.fecha}"
+        return f" {self.usuario.username} - {self.producto.nombre} - {self.fecha}"
