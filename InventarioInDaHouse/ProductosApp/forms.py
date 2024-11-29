@@ -20,6 +20,15 @@ CATEGORIA = [
 
 
 class ProductoForm(forms.ModelForm):
+    """
+    Formulario para crear y actualizar productos.
+    
+    Validaciones:
+    - Nombre: Solo permite letras
+    - Categoría: No permite la opción 'Sin categoría'
+    - Precio: No permite valores negativos
+    - Promoción: Requiere seleccionar un estado válido
+    """
     class Meta:
         model = Producto
         fields = ['nombre', 'descripcion', 'precio', 'stock', 'sku', 'categoria', 'proveedor', 'promocion']
@@ -65,6 +74,12 @@ class ProductoForm(forms.ModelForm):
         return promocion
 
 class CategoriaForm(forms.ModelForm):
+    """
+    Formulario para crear y actualizar categorías de productos.
+    
+    Validaciones:
+    - Nombre: Solo permite letras y espacios
+    """
     class Meta:
         model = Categoria
         fields = ['nombre', 'descripcion']
@@ -80,6 +95,14 @@ class CategoriaForm(forms.ModelForm):
         return nombre
 
 class ProveedorForm(forms.ModelForm):
+    """
+    Formulario para crear y actualizar proveedores.
+    
+    Campos:
+    - nombre: Nombre del proveedor
+    - info_contacto: Información de contacto
+    - direccion: Dirección física del proveedor
+    """
     class Meta:
         model = Proveedor
         fields = ['nombre', 'info_contacto', 'direccion']
@@ -90,6 +113,13 @@ class ProveedorForm(forms.ModelForm):
         }
 
 class RegistroInventarioForm(forms.ModelForm):
+    """
+    Formulario para registrar movimientos de inventario.
+    
+    Campos:
+    - producto: Producto afectado
+    - cantidad: Cantidad a agregar/remover del inventario
+    """
     class Meta:
         model = RegistroInventario
         fields = ['producto', 'cantidad']

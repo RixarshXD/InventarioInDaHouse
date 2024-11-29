@@ -145,6 +145,14 @@ def registrar_proveedor(request):
 
 @login_required
 def lista_registros(request):
+    """
+    Muestra el historial de movimientos de inventario.
+    
+    Ordena los registros por fecha descendente.
+    
+    Returns:
+        Lista de registros de inventario ordenados por fecha.
+    """
     registros = RegistroInventario.objects.all().order_by('-fecha')
     return render(request, 'ProductosApp/registros_lista.html', {'registros': registros})
 
@@ -178,6 +186,24 @@ def agregar_registro(request):
 
 @login_required
 def cargar_excel(request):
+    """
+    Permite la importación masiva de productos desde un archivo Excel.
+    
+    El archivo debe contener las siguientes columnas:
+    - sku: Código único del producto
+    - nombre: Nombre del producto  
+    - precio: Precio unitario
+    - stock: Cantidad inicial
+    - categoria: Nombre de la categoría
+    - proveedor: (Opcional) Nombre del proveedor
+    - promocion: (Opcional) Estado de promoción
+    
+    Permisos:
+    - Solo accesible por usuarios con rol Gerente o Encargado
+    
+    Returns:
+        Redirecciona al listado de productos
+    """
     try:
         usuario_actual = Usuario.objects.get(email=request.user.email)
         if usuario_actual.role not in ['Gerente', 'Encargado']:
