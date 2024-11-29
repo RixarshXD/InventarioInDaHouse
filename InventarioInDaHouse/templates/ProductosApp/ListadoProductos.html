@@ -3,129 +3,144 @@
 {% block title %}Listado de Productos{% endblock %}
 {% block content %}
 
-<html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
 </head>
 
 <body>
-
-    <div class="container mt-4">
-        <div class="card shadow-sm">
-            <div class="card-header bg-white py-3">
-                <div class="row align-items-center">
-                    <div class="col">
-                        <h5 class="mb-0">Listado de Productos</h5>
-                    </div>
-                    <div class="col text-end">
-                        <a href="{% url 'cargar_excel' %}" class="btn btn-success me-2">
-                            <i class="bi bi-file-excel"></i> Cargar Excel
-                        </a>
-                        <a href="{% url 'registrar_producto' %}" class="btn btn-primary">
-                            <i class="bi bi-plus-lg"></i> Nuevo Producto
-                        </a>
-                    </div>
+    <div class="card shadow">
+        <div class="card-header bg-white py-3">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h4 class="mb-0 text-primary">
+                        <i class="bi bi-box-seam me-2"></i>Gestión de Productos
+                    </h4>
+                </div>
+                <div class="col text-end">
+                    <a href="{% url 'cargar_excel' %}" class="btn btn-success me-2">
+                        <i class="bi bi-file-excel"></i> Cargar Excel
+                    </a>
+                    <a href="{% url 'registrar_producto' %}" class="btn btn-primary">
+                        <i class="bi bi-plus-lg"></i> Nuevo Producto
+                    </a>
                 </div>
             </div>
-            <div class="card-body">
-                <div class="row mb-4">
-                    <div class="col-12">
-                        <form method="get" class="form-inline">
-                            <div class="input-group mr-2">
-                                <input type="text" class="form-control" name="nombre" placeholder="Buscar por nombre"
-                                    value="{{ nombre_busqueda }}">
-                            </div>
-                            <div class="input-group mr-2">
-                                <select class="form-control" name="categoria">
-                                    <option value="">Todas las categorías</option>
-                                    {% for categoria in categorias %}
-                                    <option value="{{ categoria.id }}" {{
-                                        categoria.id|stringformat:"s"==categoria_seleccionada|default:""
-                                        |stringformat:"s" |yesno:"selected," }}>{{ categoria.nombre }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <button type="submit" class="btn btn-primary mr-2">Filtrar</button>
-                            <a href="{% url 'listado_productos' %}" class="btn btn-secondary">Limpiar</a>
-                        </form>
-                    </div>
-                </div>
+        </div>
+        <div class="card-body">
 
-                {% if messages %}
-                {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-                {% endfor %}
-                {% endif %}
 
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead>
-                            <tr>
-                                <th>SKU</th>
-                                <th>Nombre</th>
-                                <th>Precio</th>
-                                <th>Stock</th>
-                                <th>Categoría</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for producto in productos %}
-                            <tr>
-                                <td>{{ producto.sku }}</td>
-                                <td>{{ producto.nombre }}</td>
-                                <td>${{ producto.precio }}</td>
-                                <td>{{ producto.stock }}</td>
-                                <td>{{ producto.categoria.nombre }}</td>
-                                <td>
-                                    <div class="btn-group" role="group">
-                                        <a href="{% url 'detalle_producto' producto.id %}" class="btn btn-sm btn-info">
-                                            Ver detalles
-                                        </a>
-                                        <a href="{% url 'actualizar_producto' producto.id %}"
-                                            class="btn btn-sm btn-outline-warning">
-                                            <i class="bi bi-pencil-fill"></i>
-                                        </a>
-                                        <form action="{% url 'eliminar_producto' producto.id %}" method="post"
-                                            class="d-inline-block">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                onclick="return confirm('¿Estás seguro de eliminar este producto?')">
-                                                <i class="bi bi-trash-fill"></i>
-                                            </button>
-                                        </form>
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            <div class="table-responsive">
+                <table id="productosTable" class="table table-hover table-striped align-middle">
+                    <thead class="bg-light">
+                        <tr>
+                            <th>Producto</th>
+                            <th>Precio</th>
+                            <th>Stock</th>
+                            <th>Categoría</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for producto in productos %}
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar-circle bg-primary text-white me-3">
+                                        {{ producto.nombre|first }}
                                     </div>
-                                </td>
-                            </tr>
-                            {% empty %}
-                            <tr>
-                                <td colspan="6" class="text-center">No hay productos registrados</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                                    <div>
+                                        <h6 class="mb-0">{{producto.nombre}}</h6>
+                                        <small class="text-muted">SKU: {{producto.sku}}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>${{ producto.precio }}</td>
+                            <td>{{ producto.stock }}</td>
+                            <td>
+                                <span class="badge bg-info text-dark">{{ producto.categoria.nombre }}</span>
+                            </td>
+                            <td>
+                                {% if producto.stock > 0 %}
+                                <span class="badge bg-success">Disponible</span>
+                                {% else %}
+                                <span class="badge bg-danger">Sin Stock</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="{% url 'detalle_producto' producto.id %}" class="btn btn-sm btn-info">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a href="{% url 'actualizar_producto' producto.id %}"
+                                        class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a href="{% url 'agregar_registro' %}?producto_id={{ producto.id }}"
+                                        class="btn btn-sm btn-outline-success">
+                                        <i class="bi bi-box-arrow-in-down"></i>
+                                    </a>
+                                    <form action="{% url 'eliminar_producto' producto.id %}" method="post"
+                                        class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-outline-danger"
+                                            onclick="return confirm('¿Estás seguro de eliminar este producto?')">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 
-    </div>
+    <style>
+        .avatar-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+    </style>
+
+    {% load static %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl)
-            })
+        $(document).ready(function () {
+            $('#productosTable').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
+                },
+                pageLength: 10,
+                order: [[0, 'asc']]
+            });
         });
     </script>
-    {% endblock %}
 </body>
+{% endblock %}
 
 </html>

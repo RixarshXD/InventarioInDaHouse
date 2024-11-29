@@ -6,6 +6,7 @@ from .models import Usuario
 from .forms import FormUsuario, LoginForm
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
+from django.db import connection
 
 def loginUsuario(request):
     if request.method == 'POST':
@@ -96,14 +97,30 @@ def registrar_usuario(request):
     
 @login_required
 def eliminar_usuario(request, id):
-    """
-    Se crea la vista para eliminar un usuario.
-    Se obtiene el usuario a eliminar y se elimina de la base de datos.
-    Se redirige a la lista de usuarios.
-    """
-    usuario = Usuario.objects.get(id=id)
-    usuario.delete()
-    return redirect(listado_usuarios)
+    if request.method == 'POST':
+        try:
+            # Verificar permisos
+            usuario_actual = Usuario.objects.get(email=request.user.email)
+            if not (usuario_actual.role == 'Gerente' or request.user.is_superuser):
+                messages.error(request, 'No tienes permisos para eliminar usuarios')
+                return redirect('listado')
+
+            # Obtener usuario
+            usuario = Usuario.objects.get(id=id)
+            
+            if usuario == request.user:
+                messages.error(request, 'No puedes eliminarte a ti mismo')
+                return redirect('listado')
+
+            # Eliminar el usuario directamente
+            usuario.delete()
+            messages.success(request, 'Usuario eliminado correctamente')
+            
+        except Usuario.DoesNotExist:
+            messages.error(request, 'Usuario no encontrado')
+        except Exception as e:
+            messages.error(request, f'Error al eliminar usuario: {str(e)}')
+    return redirect('listado')
 
 @login_required 
 def actualizar_usuario(request, id):
@@ -114,8 +131,8 @@ def actualizar_usuario(request, id):
     """
     usuario = Usuario.objects.get(id=id)
     form = FormUsuario(instance=usuario)
-    if request.method == 'POST':
-        form = FormUsuario(request.POST, instance=usuario)
+    if request.method == 'POST':        form = FormUsuario(request.POST, instance=usuario)
+    if form.is_valid():
         if form.is_valid():
             form.save()
             return listado_usuarios(request)

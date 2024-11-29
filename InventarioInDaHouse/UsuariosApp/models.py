@@ -27,12 +27,32 @@ class Usuario(AbstractUser):
     username = None
     email = models.EmailField('email', unique=True)
     role = models.CharField(max_length=50, choices=ROLES, default='Vendedor')
-    rut = models.CharField(max_length=10, unique=True, null=True, blank=True)
+    rut = models.CharField(max_length=12, unique=True, null=True, blank=True)
+
+    groups = models.ManyToManyField(
+        'auth.Group',
+        verbose_name='groups',
+        blank=True,
+        related_name='custom_user_set',
+        help_text='The groups this user belongs to.'
+    )
+    
+    user_permissions = models.ManyToManyField(
+        'auth.Permission',
+        verbose_name='user permissions',
+        blank=True,
+        related_name='custom_user_set',
+        help_text='Specific permissions for this user.'
+    )
 
     objects = CustomUserManager()
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'role']
 
+    class Meta:
+        verbose_name = 'usuario'
+        verbose_name_plural = 'usuarios'
+        
     def __str__(self):
         return self.email

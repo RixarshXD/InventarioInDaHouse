@@ -103,6 +103,13 @@ def lista_registros(request):
 
 @login_required
 def agregar_registro(request):
+    producto_id = request.GET.get('producto_id')
+    initial_data = {}
+    
+    if producto_id:
+        producto = get_object_or_404(Producto, id=producto_id)
+        initial_data['producto'] = producto
+
     if request.method == 'POST':
         form = RegistroInventarioForm(request.POST)
         if form.is_valid():
@@ -115,9 +122,11 @@ def agregar_registro(request):
             producto.stock += registro.cantidad
             producto.save()
             
-            return redirect('lista_registros')
+            messages.success(request, f'Stock actualizado para {producto.nombre}')
+            return redirect('listado_productos')
     else:
-        form = RegistroInventarioForm()
+        form = RegistroInventarioForm(initial=initial_data)
+    
     return render(request, 'ProductosApp/registro_form.html', {'form': form})
 
 @login_required
