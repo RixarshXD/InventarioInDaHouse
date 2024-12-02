@@ -88,6 +88,9 @@ DATABASES = {
         'PASSWORD':'comando11',
         'HOST':'db-inventario-2.cvkaew4mi7iq.us-east-2.rds.amazonaws.com',
         'PORT':'3306',
+        'OPTIONS': {
+            'sql_mode': 'STRICT_TRANS_TABLES',
+        },
     }
 }
 
