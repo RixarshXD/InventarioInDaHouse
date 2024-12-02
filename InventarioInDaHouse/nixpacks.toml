@@ -1,2 +1,0 @@
-[build]
-command = "python manage.py migrate && gunicorn InventarioInDaHouse.wsgi:application"
