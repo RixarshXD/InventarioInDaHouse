@@ -1,0 +1,311 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documentación del Sistema de Inventario InDaHouse &mdash; documentación de indahouse - </title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=e2bb6099"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/translations.js?v=f85f4cfb"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Instalación" href="instalacion.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            indahouse
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contenidos:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="instalacion.html">Instalación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modulos.html">Módulos del Sistema</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">indahouse</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Documentación del Sistema de Inventario InDaHouse</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> Ver código fuente de la página</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="documentacion-del-sistema-de-inventario-indahouse">
+<h1>Documentación del Sistema de Inventario InDaHouse<a class="headerlink" href="#documentacion-del-sistema-de-inventario-indahouse" title="Link to this heading"></a></h1>
+<p>Bienvenido a la documentación del sistema de inventario InDaHouse, una aplicación web desarrollada en Django para la gestión de inventarios.</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contenidos:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="instalacion.html">Instalación</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="instalacion.html#requisitos">Requisitos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="instalacion.html#pasos-de-instalacion">Pasos de Instalación</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modulos.html">Módulos del Sistema</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modulos.html#usuariosapp">UsuariosApp</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<section id="indices-y-tablas">
+<h2>Índices y Tablas<a class="headerlink" href="#indices-y-tablas" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Índice</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Índice de Módulos</span></a></p></li>
+</ul>
+</section>
+<section id="instalacion">
+<h2>Instalación<a class="headerlink" href="#instalacion" title="Link to this heading"></a></h2>
+<ol class="arabic">
+<li><p>Clonar el repositorio</p></li>
+<li><p>Crear un entorno virtual</p></li>
+<li><p>Instalar dependencias:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</li>
+<li><p>Ejecutar migraciones:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">migrate</span>
+</pre></div>
+</div>
+</li>
+<li><p>Crear superusuario:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">createsuperuser</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="modulos-principales">
+<h2>Módulos Principales<a class="headerlink" href="#modulos-principales" title="Link to this heading"></a></h2>
+<section id="usuariosapp">
+<h3>UsuariosApp<a class="headerlink" href="#usuariosapp" title="Link to this heading"></a></h3>
+<p>Gestión de usuarios y autenticación del sistema.</p>
+<section id="modelos">
+<h4>Modelos<a class="headerlink" href="#modelos" title="Link to this heading"></a></h4>
+<section id="usuario">
+<h5>Usuario<a class="headerlink" href="#usuario" title="Link to this heading"></a></h5>
+<dl class="py class">
+<dt class="sig sig-object py" id="Usuario">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Usuario</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">AbstractUser</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Usuario" title="Link to this definition"></a></dt>
+<dd><p>Modelo personalizado que extiende AbstractUser para gestión de usuarios.</p>
+<p><strong>Atributos principales:</strong></p>
+<ul class="simple">
+<li><p>email: Identificador único del usuario</p></li>
+<li><p>role: Rol del usuario (Gerente/Vendedor/Encargado)</p></li>
+<li><p>rut: RUT chileno del usuario</p></li>
+</ul>
+<p><strong>Roles disponibles:</strong></p>
+<ul class="simple">
+<li><p>Gerente: Acceso total al sistema</p></li>
+<li><p>Encargado: Gestión de inventario</p></li>
+<li><p>Vendedor: Consulta de productos</p></li>
+</ul>
+</dd></dl>
+
+</section>
+</section>
+<section id="vistas">
+<h4>Vistas<a class="headerlink" href="#vistas" title="Link to this heading"></a></h4>
+<dl class="py function">
+<dt class="sig sig-object py" id="loginUsuario">
+<span class="sig-name descname"><span class="pre">loginUsuario</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#loginUsuario" title="Link to this definition"></a></dt>
+<dd><p>Autentica usuarios usando email y contraseña.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="registrar_usuario">
+<span class="sig-name descname"><span class="pre">registrar_usuario</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#registrar_usuario" title="Link to this definition"></a></dt>
+<dd><p>Permite a usuarios con rol Gerente crear nuevos usuarios.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="listado_usuarios">
+<span class="sig-name descname"><span class="pre">listado_usuarios</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#listado_usuarios" title="Link to this definition"></a></dt>
+<dd><p>Muestra listado de usuarios para roles Gerente y Encargado.</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="productosapp">
+<h3>ProductosApp<a class="headerlink" href="#productosapp" title="Link to this heading"></a></h3>
+<p>Gestión del inventario y productos.</p>
+<section id="id1">
+<h4>Modelos<a class="headerlink" href="#id1" title="Link to this heading"></a></h4>
+<section id="producto">
+<h5>Producto<a class="headerlink" href="#producto" title="Link to this heading"></a></h5>
+<dl class="py class">
+<dt class="sig sig-object py" id="Producto">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Producto</span></span><a class="headerlink" href="#Producto" title="Link to this definition"></a></dt>
+<dd><p>Modelo principal para gestión de productos en inventario.</p>
+<p><strong>Atributos principales:</strong></p>
+<ul class="simple">
+<li><p>nombre: Nombre del producto</p></li>
+<li><p>descripcion: Descripción detallada</p></li>
+<li><p>precio: Precio unitario</p></li>
+<li><p>stock: Cantidad disponible</p></li>
+<li><p>sku: Código único</p></li>
+<li><p>categoria: Categoría del producto</p></li>
+<li><p>proveedor: Proveedor asociado</p></li>
+<li><p>promocion: Estado de promoción</p></li>
+</ul>
+</dd></dl>
+
+</section>
+<section id="categoria">
+<h5>Categoria<a class="headerlink" href="#categoria" title="Link to this heading"></a></h5>
+<dl class="py class">
+<dt class="sig sig-object py" id="Categoria">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Categoria</span></span><a class="headerlink" href="#Categoria" title="Link to this definition"></a></dt>
+<dd><p>Clasificación de productos.</p>
+<p><strong>Atributos:</strong></p>
+<ul class="simple">
+<li><p>nombre: Nombre de la categoría</p></li>
+<li><p>descripcion: Descripción opcional</p></li>
+</ul>
+</dd></dl>
+
+</section>
+</section>
+</section>
+<section id="registroinventario">
+<h3>RegistroInventario<a class="headerlink" href="#registroinventario" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="RegistroInventario">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RegistroInventario</span></span><a class="headerlink" href="#RegistroInventario" title="Link to this definition"></a></dt>
+<dd><p>Registro de movimientos en inventario.</p>
+<p><strong>Atributos:</strong></p>
+<ul class="simple">
+<li><p>usuario: Usuario que realiza el movimiento</p></li>
+<li><p>producto: Producto afectado</p></li>
+<li><p>cantidad: Cantidad modificada</p></li>
+<li><p>fecha: Fecha del registro</p></li>
+</ul>
+</dd></dl>
+
+</section>
+<section id="vistas-principales">
+<h3>Vistas Principales<a class="headerlink" href="#vistas-principales" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="listado_productos">
+<span class="sig-name descname"><span class="pre">listado_productos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#listado_productos" title="Link to this definition"></a></dt>
+<dd><p>Muestra catálogo de productos con filtros.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="registrar_producto">
+<span class="sig-name descname"><span class="pre">registrar_producto</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#registrar_producto" title="Link to this definition"></a></dt>
+<dd><p>Permite a Gerentes y Encargados agregar productos.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cargar_excel">
+<span class="sig-name descname"><span class="pre">cargar_excel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cargar_excel" title="Link to this definition"></a></dt>
+<dd><p>Importación masiva de productos desde Excel.</p>
+</dd></dl>
+
+</section>
+<section id="formularios">
+<h3>Formularios<a class="headerlink" href="#formularios" title="Link to this heading"></a></h3>
+</section>
+<section id="productoform">
+<h3>ProductoForm<a class="headerlink" href="#productoform" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="ProductoForm">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ProductoForm</span></span><a class="headerlink" href="#ProductoForm" title="Link to this definition"></a></dt>
+<dd><p>Formulario para crear y editar productos.</p>
+<p><strong>Validaciones:</strong></p>
+<ul class="simple">
+<li><p>Nombre: Solo letras</p></li>
+<li><p>Precio: No negativo</p></li>
+<li><p>Categoría: Obligatoria</p></li>
+<li><p>Promoción: Estado válido requerido</p></li>
+</ul>
+</dd></dl>
+
+</section>
+<section id="registroinventarioform">
+<h3>RegistroInventarioForm<a class="headerlink" href="#registroinventarioform" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="RegistroInventarioForm">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RegistroInventarioForm</span></span><a class="headerlink" href="#RegistroInventarioForm" title="Link to this definition"></a></dt>
+<dd><p>Registra movimientos de inventario.</p>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pie de página">
+        <a href="instalacion.html" class="btn btn-neutral float-right" title="Instalación" accesskey="n" rel="next">Siguiente <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2024, Ricardo Valdés.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
