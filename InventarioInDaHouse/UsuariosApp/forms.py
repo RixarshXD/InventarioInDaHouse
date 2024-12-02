@@ -5,21 +5,13 @@ import re
 
 class FormUsuario(UserCreationForm):
     """
-    Formulario para crear y actualizar usuarios.
-    
-    Validaciones:
-    - RUT: Debe seguir el formato chileno XX.XXX.XXX-X
-    - Contraseña: Mínimo 8 caracteres, debe incluir letra y número
-    
-    Campos personalizados:
-    - first_name: Nombre del usuario
-    - last_name: Apellido del usuario
-    - rut: RUT chileno
-    - email: Correo electrónico (usado como username)
-    - role: Rol del usuario en el sistema
-    - password1: Contraseña
-    - password2: Confirmación de contraseña
+    Formulario para la creación y actualización de usuarios en el sistema.
+
+    Este formulario extiende de UserCreationForm y personaliza los campos
+    y validaciones para el modelo Usuario.
+
     """
+
     password1 = forms.CharField(
         label='Contraseña',
         widget=forms.PasswordInput(attrs={
@@ -41,12 +33,18 @@ class FormUsuario(UserCreationForm):
     )
 
     def clean_rut(self):
+        """
+        Valida el formato del RUT chileno.
+        """
         rut = self.cleaned_data['rut']
         if not re.match(r'^\d{2}\.\d{3}\.\d{3}-[\dkK]$', rut):
             raise forms.ValidationError('El RUT debe tener el formato XX.XXX.XXX-X')
         return rut
 
     class Meta:
+        """
+        Metaclase que define el modelo y los campos del formulario.SS
+        """
         model = Usuario
         fields = [
             'first_name',
@@ -92,11 +90,11 @@ class FormUsuario(UserCreationForm):
 
 class LoginForm(forms.Form):
     """
-    Formulario para autenticación de usuarios.
-    
-    Campos:
-    - email: Correo electrónico del usuario
-    - password: Contraseña 
+    Formulario para la autenticación de usuarios en el sistema.
+
+    Este formulario maneja el proceso de login de usuarios mediante
+    correo electrónico y contraseña.
+
     """
     email = forms.EmailField(label='Correo electrónico', widget=forms.EmailInput(attrs={'class': 'form-control'}))
     password = forms.CharField(label='Contraseña', widget=forms.PasswordInput(attrs={'class': 'form-control'}))

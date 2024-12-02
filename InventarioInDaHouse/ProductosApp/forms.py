@@ -23,7 +23,7 @@ class ProductoForm(forms.ModelForm):
     """
     Formulario para crear y actualizar productos.
     
-    Validaciones:
+    Validaciones
     - Nombre: Solo permite letras
     - Categoría: No permite la opción 'Sin categoría'
     - Precio: No permite valores negativos
@@ -77,7 +77,7 @@ class CategoriaForm(forms.ModelForm):
     """
     Formulario para crear y actualizar categorías de productos.
     
-    Validaciones:
+    Validaciones
     - Nombre: Solo permite letras y espacios
     """
     class Meta:
@@ -98,7 +98,7 @@ class ProveedorForm(forms.ModelForm):
     """
     Formulario para crear y actualizar proveedores.
     
-    Campos:
+    Campos
     - nombre: Nombre del proveedor
     - info_contacto: Información de contacto
     - direccion: Dirección física del proveedor
@@ -116,9 +116,9 @@ class RegistroInventarioForm(forms.ModelForm):
     """
     Formulario para registrar movimientos de inventario.
     
-    Campos:
+    Campos
     - producto: Producto afectado
-    - cantidad: Cantidad a agregar/remover del inventario
+    - cantidad: Cantidad a agregar/remover del inventario.
     """
     class Meta:
         model = RegistroInventario

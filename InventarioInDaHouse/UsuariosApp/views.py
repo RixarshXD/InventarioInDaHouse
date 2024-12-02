@@ -8,6 +8,15 @@ from django.core.exceptions import PermissionDenied
 from django.contrib import messages
 
 def loginUsuario(request):
+    """
+    Autentica al usuario en el sistema usando email y contraseña.
+    
+    
+        request: Objeto request que contiene los datos del formulario de login.
+    
+    
+        Renderiza la página de login o redirige a la página siguiente si la autenticación es exitosa.
+    """
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -34,13 +43,32 @@ def loginUsuario(request):
 
 def logoutUsuario(request):
     """
-    Se crea la vista para cerrar sesión.
+    Cierra la sesión actual del usuario.
+    
+
+        request: Objeto request de la sesión actual.
+    
+  
+        Redirige a la página principal después de cerrar sesión.
     """
     logout(request)
     return redirect('/')
 
 @login_required
 def listado_usuarios(request):
+    """
+    Muestra la lista de usuarios registrados en el sistema.
+    Restringido a usuarios con roles Gerente o Encargado.
+    
+    
+        request: Objeto request que contiene la información del usuario actual.
+    
+    
+        Renderiza la página con el listado de usuarios incluyendo:
+        - Lista completa de usuarios
+        - Indicador si se muestran contraseñas (solo Gerente)
+        - Información de permisos del usuario actual
+    """
     try:
         usuario_actual = Usuario.objects.get(email=request.user.email)
         # Permitir acceso a Gerentes y Encargados
@@ -67,6 +95,19 @@ def listado_usuarios(request):
 
 @login_required
 def registrar_usuario(request):
+    """
+    Gestiona el registro de nuevos usuarios en el sistema.
+    Restringido a usuarios con rol Gerente.
+    
+    
+        request: Objeto request con los datos del formulario de registro.
+    
+    
+        Renderiza el formulario de registro o redirige al listado tras un registro exitoso.
+    
+    Note:
+        Valida que las contraseñas coincidan y maneja errores en el proceso de registro.
+    """
     try:
         usuario_actual = Usuario.objects.get(email=request.user.email)
         # Solo Gerente puede registrar usuarios
@@ -105,6 +146,20 @@ def registrar_usuario(request):
     
 @login_required
 def eliminar_usuario(request, id):
+    """
+    Elimina un usuario del sistema.
+    Restringido a usuarios con rol Gerente.
+    
+    
+        request: Objeto request que contiene la información de la petición.
+        id: Identificador único del usuario a eliminar.
+    
+    
+        Redirige al listado de usuarios tras la eliminación.
+    
+    Note:
+        Impide que un usuario se elimine a sí mismo.
+    """
     if request.method == 'POST':
         try:
             usuario_actual = Usuario.objects.get(email=request.user.email)
@@ -133,9 +188,18 @@ def eliminar_usuario(request, id):
 @login_required 
 def actualizar_usuario(request, id):
     """
-    Se crea la vista para actualizar un usuario.
-    Se obtiene el usuario a actualizar y se crea un formulario con los datos del usuario.
-    Si el formulario es válido, se actualiza el usuario y se redirige a la lista de usuarios.
+    Modifica los datos de un usuario existente.
+    Restringido a usuarios con rol Gerente.
+    
+    
+        request: Objeto request con los datos del formulario de actualización.
+        id: Identificador único del usuario a actualizar.
+    
+    
+        Renderiza el formulario de actualización o redirige al listado tras actualizar.
+    
+    Note:
+        Usa el mismo template que el registro pero en modo actualización.
     """
     try:
         usuario_actual = Usuario.objects.get(email=request.user.email)

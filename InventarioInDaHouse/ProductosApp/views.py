@@ -1,3 +1,5 @@
+
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -7,12 +9,23 @@ import pandas as pd
 from .models import Producto, Categoria, Proveedor  # Añadir Proveedor a los imports
 from UsuariosApp.models import Usuario
 
-# Función para la página de inicio.
 def index(request):
+    """
+    Vista para la página de inicio.
+
+    """
     return render(request, 'index.html')
 
 @login_required
 def listado_productos(request):
+    """
+    Vista que muestra el listado de productos con opciones de filtrado.
+    
+    
+    Los filtros disponibles son:
+    - Nombre del producto (búsqueda parcial)
+    - Categoría (selección)
+    """
     productos = Producto.objects.all()
     categorias = Categoria.objects.all()
     
@@ -36,6 +49,13 @@ def listado_productos(request):
 
 @login_required
 def registrar_producto(request):
+    """
+    Vista para registrar un nuevo producto.
+
+    
+    Restricciones
+        - Solo usuarios con rol Gerente o Encargado pueden registrar productos
+    """
     try:
         usuario_actual = Usuario.objects.get(email=request.user.email)
         # Permitir a Gerente y Encargado registrar productos
@@ -58,11 +78,24 @@ def registrar_producto(request):
 
 @login_required
 def detalle_producto(request, pk):
+    """
+    Vista que muestra los detalles de un producto específico.
+    
+
+    """
     producto = get_object_or_404(Producto, pk=pk)
     return render(request, 'ProductosApp/DetallesProductos.html', {'producto': producto})
 
 @login_required
 def actualizar_producto(request, id):
+    """
+    Vista para actualizar la información de un producto existente.
+    
+
+    
+    Restricciones
+        - Solo usuarios con rol Gerente o Encargado pueden actualizar productos
+    """
     try:
         usuario_actual = Usuario.objects.get(email=request.user.email)
         if usuario_actual.role not in ['Gerente', 'Encargado']:
@@ -85,6 +118,14 @@ def actualizar_producto(request, id):
 
 @login_required
 def eliminar_producto(request, pk):
+    """
+    Vista para eliminar un producto del sistema.
+    
+
+    
+    Restricciones
+        - Solo usuarios con rol Gerente o Encargado pueden eliminar productos
+    """
     try:
         usuario_actual = Usuario.objects.get(email=request.user.email)
         if usuario_actual.role not in ['Gerente', 'Encargado']:
@@ -103,6 +144,12 @@ def eliminar_producto(request, pk):
 
 @login_required
 def registrar_categoria(request):
+    """
+    Vista para registrar una nueva categoría de productos.
+    
+    Restricciones
+        - Solo usuarios con rol Gerente o Encargado pueden registrar categorías
+    """
     try:
         usuario_actual = Usuario.objects.get(email=request.user.email)
         if usuario_actual.role not in ['Gerente', 'Encargado']:
@@ -124,6 +171,12 @@ def registrar_categoria(request):
 
 @login_required
 def registrar_proveedor(request):
+    """
+    Vista para registrar un nuevo proveedor.
+    
+    Restricciones
+        - Solo usuarios con rol Gerente o Encargado pueden registrar proveedores
+    """
     try:
         usuario_actual = Usuario.objects.get(email=request.user.email)
         if usuario_actual.role not in ['Gerente', 'Encargado']:
@@ -146,18 +199,27 @@ def registrar_proveedor(request):
 @login_required
 def lista_registros(request):
     """
-    Muestra el historial de movimientos de inventario.
+    Vista que muestra el historial de movimientos de inventario.
     
-    Ordena los registros por fecha descendente.
-    
-    Returns:
-        Lista de registros de inventario ordenados por fecha.
+    Los registros incluyen
+        - Fecha del movimiento
+        - Producto afectado
+        - Cantidad modificada
+        - Usuario que realizó el movimiento
     """
     registros = RegistroInventario.objects.all().order_by('-fecha')
     return render(request, 'ProductosApp/registros_lista.html', {'registros': registros})
 
 @login_required
 def agregar_registro(request):
+    """
+    Vista para registrar un movimiento en el inventario.
+
+    Funcionalidad
+        - Actualiza el stock del producto automáticamente
+        - Registra el usuario que realiza el movimiento
+        - Permite seleccionar producto específico vía parámetro GET
+    """
     producto_id = request.GET.get('producto_id')
     initial_data = {}
     
@@ -187,22 +249,24 @@ def agregar_registro(request):
 @login_required
 def cargar_excel(request):
     """
-    Permite la importación masiva de productos desde un archivo Excel.
+    Vista para importación masiva de productos desde archivo Excel.
+
+    Formato del Excel
+        - sku: Código único del producto (str)
+        - nombre: Nombre del producto (str)
+        - precio: Precio unitario (float)
+        - stock: Cantidad inicial (int)
+        - categoria: Nombre de la categoría (str)
+        - proveedor: Nombre del proveedor (str, opcional)
+        - promocion: Estado de promoción (bool, opcional)
     
-    El archivo debe contener las siguientes columnas:
-    - sku: Código único del producto
-    - nombre: Nombre del producto  
-    - precio: Precio unitario
-    - stock: Cantidad inicial
-    - categoria: Nombre de la categoría
-    - proveedor: (Opcional) Nombre del proveedor
-    - promocion: (Opcional) Estado de promoción
+    Restricciones
+        - Solo usuarios con rol Gerente o Encargado pueden realizar importaciones
     
-    Permisos:
-    - Solo accesible por usuarios con rol Gerente o Encargado
-    
-    Returns:
-        Redirecciona al listado de productos
+    Comportamiento
+        - Crea categorías y proveedores si no existen
+        - Valida formato de datos
+        - Reporta errores por fila si existen problemas
     """
     try:
         usuario_actual = Usuario.objects.get(email=request.user.email)
