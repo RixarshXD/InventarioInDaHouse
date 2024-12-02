@@ -1,1 +1,1 @@
-web: gunicorn InventarioInDaHouse.wsgi
+web: gunicorn InventarioInDaHouse.wsgi:application
