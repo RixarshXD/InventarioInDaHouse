@@ -97,7 +97,7 @@ class RegistroInventario(models.Model):
         cantidad (int): Cantidad modificada
         fecha (datetime): Fecha y hora del registro
     """
-    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='registros')
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='registros', null=True, blank=True)
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     cantidad = models.IntegerField()
     fecha = models.DateTimeField(auto_now_add=True)
